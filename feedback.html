@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Chef Paul Pizza</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Feedback-specific styles */
+        .feedback-container {
+            max-width: 1200px;
+            margin: 100px auto 0;
+            padding: 2rem 1rem;
+        }
+
+        .feedback-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .feedback-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        /* Form Styles */
+        .feedback-form {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--orange);
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--red);
+        }
+
+        .rating-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .rating-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--orange);
+            background: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .rating-btn.active {
+            background-color: var(--orange);
+            color: var(--white);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--red);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .review-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .review-date {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .review-rating {
+            color: var(--yellow);
+            margin-bottom: 0.5rem;
+        }
+
+        .review-text {
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .feedback-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1000;
+        }
+
+        .hamburger-menu span {
+            width: 100%;
+            height: 3px;
+            background-color: var(--dark-gray);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--white);
+            padding: 80px 20px 20px;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 999;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-menu a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 10px 0;
+        }
+
+        .mobile-menu button {
+            width: 100%;
+            padding: 12px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--orange);
+            color: var(--white);
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links, .nav-buttons {
+                display: none;
+            }
+
+            .hamburger-menu {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .hamburger-menu.active span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+
+            .hamburger-menu.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger-menu.active span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header (same as index.html) -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <h1>Chef Paul Pizza</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="menu.html">Menu</a>
+                <a href="deals.html">Deals</a>
+                <a href="popular.html">Popular</a>
+                <a href="feedback.html">Feedback</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="nav-buttons">
+                <button class="cart-btn">🛒</button>
+                <button class="checkout-btn-nav">Checkout</button>
+            </div>
+            <button class="hamburger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+        <div class="mobile-menu">
+            <a href="index.html">Home</a>
+            <a href="menu.html">Menu</a>
+            <a href="deals.html">Deals</a>
+            <a href="popular.html">Popular</a>
+            <a href="feedback.html">Feedback</a>
+            <a href="contact.html">Contact</a>
+            <button class="cart-btn">🛒 Cart</button>
+            <button class="checkout-btn-nav">Checkout</button>
+        </div>
+    </header>
+
+    <!-- Feedback Section -->
+    <main class="feedback-container">
+        <div class="feedback-header">
+            <h1>Customer Feedback</h1>
+            <p>Share your experience with us</p>
+        </div>
+
+        <div class="feedback-content">
+            <!-- Feedback Form -->
+            <section class="feedback-form">
+                <form id="feedbackForm">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Rating</label>
+                        <div class="rating-group">
+                            <button type="button" class="rating-btn" data-rating="1">1</button>
+                            <button type="button" class="rating-btn" data-rating="2">2</button>
+                            <button type="button" class="rating-btn" data-rating="3">3</button>
+                            <button type="button" class="rating-btn" data-rating="4">4</button>
+                            <button type="button" class="rating-btn" data-rating="5">5</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="review">Your Review</label>
+                        <textarea id="review" name="review" rows="5" required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Feedback</button>
+                </form>
+            </section>
+
+            <!-- Reviews Display -->
+            <section class="reviews-section">
+                <div id="reviewsContainer">
+                    <!-- Reviews will be populated by JavaScript -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Chef Paul Pizza</h3>
+                <p>Fresh ingredients, amazing taste</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="menu.html">Menu</a>
+                <a href="deals.html">Deals</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>123 Pizza Street</p>
+                <p>Phone: (555) 123-4567</p>
+                <p>Email: info@chefpaulpizza.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" class="social-link">Instagram</a>
+                    <a href="#" class="social-link">Twitter</a>
+                    <a href="#" class="social-link">Facebook</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Chef Paul Pizza. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="feedback.js"></script>
+    <div class="cart-overlay">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Your Cart</h2>
+                <button class="close-cart-btn">×</button>
+            </div>
+            <div id="cart-items"></div>
+            <div class="cart-total">Total: P<span id="cart-total-price">0</span></div>
+            <div class="cart-buttons">
+                <button class="clear-cart-btn">Clear Cart</button>
+                <button class="checkout-btn">Checkout</button>
+            </div>
+        </div>
+    </div>
+    <div class="checkout-overlay">
+        <div class="checkout-content">
+            <div class="checkout-header">
+                <h2>Checkout</h2>
+                <button class="close-checkout-btn">×</button>
+            </div>
+            <div id="checkout-cart-items"></div>
+            <div class="checkout-total">Total: P<span id="checkout-total-price">0</span></div>
+            <form id="checkout-form">
+                <div class="checkout-section">
+                    <label><strong>Order Type:</strong></label><br>
+                    <label><input type="radio" name="orderType" value="pickup" checked> Pickup</label>
+                    <label><input type="radio" name="orderType" value="delivery"> Delivery</label>
+                </div>
+                <div class="checkout-section delivery-details" style="display:none;">
+                    <label for="deliveryAddress">Delivery Address</label>
+                    <input type="text" id="deliveryAddress" name="deliveryAddress" placeholder="Enter delivery address">
+                </div>
+                <div class="checkout-section">
+                    <label for="customerName">Your Name</label>
+                    <input type="text" id="customerName" name="customerName" required>
+                </div>
+                <div class="checkout-section">
+                    <label for="customerPhone">Phone Number</label>
+                    <input type="tel" id="customerPhone" name="customerPhone" required>
+                </div>
+                <div class="checkout-section">
+                    <p class="confirm-message">Please confirm your order details above before submitting.</p>
+                </div>
+                <button type="submit" class="confirm-order-btn">Confirm Order</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html> 

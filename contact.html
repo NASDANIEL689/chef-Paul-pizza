@@ -1,0 +1,503 @@
+ 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Chef Paul Pizza</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Contact-specific styles */
+        .contact-container {
+            max-width: 1200px;
+            margin: 100px auto 0;
+            padding: 2rem 1rem;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        /* Contact Form Styles */
+        .contact-form {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--orange);
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--red);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--red);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+        }
+
+        /* Contact Info Styles */
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .info-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-card h3 {
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-card h3::before {
+            content: "📍";
+        }
+
+        .info-card h3.location::before {
+            content: "📍";
+        }
+
+        .info-card h3.hours::before {
+            content: "🕒";
+        }
+
+        .info-card h3.contact::before {
+            content: "📞";
+        }
+
+        .info-card p {
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Map Styles */
+        .map-container {
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* FAQ Styles */
+        .faq-section {
+            margin-top: 3rem;
+        }
+
+        .faq-item {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--dark-gray);
+            font-weight: 600;
+        }
+
+        .faq-answer {
+            margin-top: 1rem;
+            color: var(--dark-gray);
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            animation: slideDown 0.3s ease forwards;
+        }
+
+        .faq-item.active .faq-question::after {
+            content: "−";
+        }
+
+        .faq-question::after {
+            content: "+";
+            font-size: 1.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1000;
+        }
+
+        .hamburger-menu span {
+            width: 100%;
+            height: 3px;
+            background-color: var(--dark-gray);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--white);
+            padding: 80px 20px 20px;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 999;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-menu a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 10px 0;
+        }
+
+        .mobile-menu button {
+            width: 100%;
+            padding: 12px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--orange);
+            color: var(--white);
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links, .nav-buttons {
+                display: none;
+            }
+
+            .hamburger-menu {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .hamburger-menu.active span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+
+            .hamburger-menu.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger-menu.active span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header (same as index.html) -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <h1>Chef Paul Pizza</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="menu.html">Menu</a>
+                <a href="deals.html">Deals</a>
+                <a href="popular.html">Popular</a>
+                <a href="feedback.html">Feedback</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="nav-buttons">
+                <button class="cart-btn">🛒</button>
+                <button class="checkout-btn-nav">Checkout</button>
+            </div>
+            <button class="hamburger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+        <div class="mobile-menu">
+            <a href="index.html">Home</a>
+            <a href="menu.html">Menu</a>
+            <a href="deals.html">Deals</a>
+            <a href="popular.html">Popular</a>
+            <a href="feedback.html">Feedback</a>
+            <a href="contact.html">Contact</a>
+            <button class="cart-btn">🛒 Cart</button>
+            <button class="checkout-btn-nav">Checkout</button>
+        </div>
+    </header>
+
+    <!-- Contact Section -->
+    <main class="contact-container">
+        <div class="contact-header">
+            <h1>Contact Us</h1>
+            <p>We'd love to hear from you</p>
+        </div>
+
+        <div class="contact-content">
+            <!-- Contact Form -->
+            <section class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a subject</option>
+                            <option value="order">Order Inquiry</option>
+                            <option value="feedback">Feedback</option>
+                            <option value="complaint">Complaint</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </section>
+
+            <!-- Contact Information -->
+            <section class="contact-info">
+                <div class="info-card">
+                    <h3 class="location">Location</h3>
+                    <p>Chef Paul's Umami Pizza Kitchen</p>
+                    <p>Gaborone | Tlokweng</p>
+                    <div class="map-container">
+                        <iframe src="https://www.google.com/maps?q=Gaborone,+Botswana&output=embed" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3 class="hours">Business Hours</h3>
+                    <p>Monday - Thursday: 11:00 AM - 10:00 PM</p>
+                    <p>Friday - Saturday: 11:00 AM - 11:00 PM</p>
+                    <p>Sunday: 12:00 PM - 9:00 PM</p>
+                </div>
+
+                <div class="info-card">
+                    <h3 class="contact">Contact Information</h3>
+                    <p>Phone: +267 77 638 172</p>
+                    <p>Email: info@chefpaulpizza.com</p>
+                    <p>Delivery: Gaborone | Tlokweng (P50 fee)</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">What are your delivery hours?</div>
+                    <div class="faq-answer">
+                        We deliver from 11:00 AM to 10:00 PM daily. Delivery times may vary based on location and order volume.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Do you offer catering services?</div>
+                    <div class="faq-answer">
+                        Yes, we offer catering services for events of all sizes. Please contact us at least 24 hours in advance for catering orders.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">What is your delivery radius?</div>
+                    <div class="faq-answer">
+                        We deliver within a 5-mile radius of our location. Delivery fees may vary based on distance.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Do you have vegetarian/vegan options?</div>
+                    <div class="faq-answer">
+                        Yes, we offer a variety of vegetarian and vegan pizzas. Check our menu for specific options.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">How can I track my order?</div>
+                    <div class="faq-answer">
+                        You can track your order through our website or mobile app. You'll receive a tracking link via email or SMS when your order is confirmed.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Chef Paul Pizza</h3>
+                <p>Fresh ingredients, amazing taste</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="menu.html">Menu</a>
+                <a href="deals.html">Deals</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Chef Paul's Umami Pizza Kitchen</p>
+                <p>Gaborone | Tlokweng</p>
+                <p>Phone: +267 77 638 172</p>
+                <p>Email: info@chefpaulpizza.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/chefpaulsumami" class="social-link">Facebook</a>
+                    <a href="https://www.instagram.com/chefpaulsumami" class="social-link">Instagram</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Chef Paul Pizza. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="contact.js"></script>
+    <div class="cart-overlay">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Your Cart</h2>
+                <button class="close-cart-btn">×</button>
+            </div>
+            <div id="cart-items"></div>
+            <div class="cart-total">Total: P<span id="cart-total-price">0</span></div>
+            <div class="cart-buttons">
+                <button class="clear-cart-btn">Clear Cart</button>
+                <button class="checkout-btn">Checkout</button>
+            </div>
+        </div>
+    </div>
+    <div class="checkout-overlay">
+        <div class="checkout-content">
+            <div class="checkout-header">
+                <h2>Checkout</h2>
+                <button class="close-checkout-btn">×</button>
+            </div>
+            <div id="checkout-cart-items"></div>
+            <div class="checkout-total">Total: P<span id="checkout-total-price">0</span></div>
+            <form id="checkout-form">
+                <div class="checkout-section">
+                    <label><strong>Order Type:</strong></label><br>
+                    <label><input type="radio" name="orderType" value="pickup" checked> Pickup</label>
+                    <label><input type="radio" name="orderType" value="delivery"> Delivery</label>
+                </div>
+                <div class="checkout-section delivery-details" style="display:none;">
+                    <label for="deliveryAddress">Delivery Address</label>
+                    <input type="text" id="deliveryAddress" name="deliveryAddress" placeholder="Enter delivery address">
+                </div>
+                <div class="checkout-section">
+                    <label for="customerName">Your Name</label>
+                    <input type="text" id="customerName" name="customerName" required>
+                </div>
+                <div class="checkout-section">
+                    <label for="customerPhone">Phone Number</label>
+                    <input type="tel" id="customerPhone" name="customerPhone" required>
+                </div>
+                <div class="checkout-section">
+                    <p class="confirm-message">Please confirm your order details above before submitting.</p>
+                </div>
+                <button type="submit" class="confirm-order-btn">Confirm Order</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html> 
