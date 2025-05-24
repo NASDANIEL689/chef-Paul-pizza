@@ -1,52 +1,99 @@
+console.log('Deals.js loaded');
+
 // Deals Data
 const deals = [
     {
         id: 1,
-        title: "Family Feast",
-        description: "2 Large Pizzas + 2L Soda + Garlic Bread",
-        price: 329.99,
-        originalPrice: 445.99,
-        image: "pics/486109780_656386520481154_4888741190451172103_n.jpg",
-        endDate: "2024-04-30T23:59:59",
-        terms: "Valid for dine-in and delivery. Cannot be combined with other offers."
+        title: "Family Feast Deal",
+        description: "2 Large Pizzas + 1 Medium Pizza + 2L Soda + Garlic Bread",
+        price: 299,
+        originalPrice: 399,
+        image: "pics/500642364_687730764013396_5545638874431695074_n (3).jpg",
+        badge: "Best Value",
+        expiryDate: "2024-04-30",
+        terms: "Valid for dine-in and delivery. Not valid with other offers."
     },
     {
         id: 2,
-        title: "Lunch Special",
-        description: "Medium Pizza + Drink + Side",
-        price: 129.99,
-        originalPrice: 118.99,
-        image: "pics/488760799_652433037543169_4459470251648953587_n.jpg",
-        endDate: "2024-04-15T14:00:00",
-        terms: "Valid Monday-Friday, 11 AM - 2 PM only."
+        title: "Weekend Special",
+        description: "Buy 1 Large Pizza, Get 1 Medium Pizza Free + Free Delivery",
+        price: 199,
+        originalPrice: 299,
+        image: "pics/497950856_682776077842198_1598299939128618699_n.jpg",
+        badge: "Weekend Only",
+        expiryDate: "2024-04-28",
+        terms: "Valid only on weekends. Delivery within 5km radius."
     },
     {
         id: 3,
-        title: "Weekend Party Pack",
-        description: "4 Large Pizzas + 2L Soda + 2 Sides",
-        price: 499.99,
-        originalPrice: 649.99,
-        image: "pics/497950856_682776077842198_1598299939128618699_n.jpg",
-        endDate: "2024-04-20T23:59:59",
-        terms: "Valid Friday-Sunday only. 24-hour advance notice required."
+        title: "Student Discount",
+        description: "20% off on all pizzas with valid student ID",
+        price: null,
+        originalPrice: null,
+        image: "pics/ivan-torres-MQUqbmszGGM-unsplash.jpg",
+        badge: "Student Special",
+        expiryDate: "2024-12-31",
+        terms: "Must present valid student ID. Not valid with other offers."
     }
 ];
 
 // DOM Elements
 const dealsGrid = document.querySelector('.deals-grid');
 
-// Shopping Cart
+// Cart array
 let cart = [];
 
-// Initialize the deals
-document.addEventListener('DOMContentLoaded', () => {
-    displayDeals();
-    startCountdownTimers();
-    setupEventListeners();
-    updateCartDisplay();
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing deals page');
+    
+    const dealsGrid = document.querySelector('.deals-grid');
+    console.log('Found deals grid:', dealsGrid);
+    
+    if (dealsGrid) {
+        // Clear existing content
+        dealsGrid.innerHTML = '';
+        
+        // Populate deals
+        deals.forEach(deal => {
+            const dealCard = createDealCard(deal);
+            dealsGrid.appendChild(dealCard);
+        });
+        console.log('Deals populated');
+    } else {
+        console.error('Deals grid not found!');
+    }
 
-    // Expose addToCart globally if needed
-    window.addToCart = addToCart;
+    // Setup cart functionality
+    setupCart();
+    console.log('Cart setup complete');
+
+    // Setup hamburger menu
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const mobileMenu = document.querySelector('.mobile-menu');
+
+    if (hamburgerMenu && mobileMenu) {
+        hamburgerMenu.addEventListener('click', () => {
+            hamburgerMenu.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburgerMenu.contains(e.target) && !mobileMenu.contains(e.target)) {
+                hamburgerMenu.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Close mobile menu when clicking a link
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburgerMenu.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+    }
 });
 
 // Display Deals
@@ -61,31 +108,52 @@ function displayDeals() {
 
 // Create Deal Card
 function createDealCard(deal) {
+    console.log('Creating deal card for:', deal.title);
     const card = document.createElement('div');
     card.className = 'deal-card';
     
-    const discount = Math.round(((deal.originalPrice - deal.price) / deal.originalPrice) * 100);
+    const timeLeft = getTimeLeft(deal.expiryDate);
     
     card.innerHTML = `
-        <div class="deal-badge">${discount}% OFF</div>
+        <div class="deal-badge">${deal.badge}</div>
         <img src="${deal.image}" alt="${deal.title}" class="deal-image">
         <div class="deal-content">
             <h3 class="deal-title">${deal.title}</h3>
             <p class="deal-description">${deal.description}</p>
-            <div class="deal-price">
-                <span class="original-price">P${deal.originalPrice}</span>
-                <span class="current-price">P${deal.price}</span>
+            ${deal.price ? `
+                <div class="deal-price">
+                    <span class="original-price">P${deal.originalPrice}</span>
+                    <span class="current-price">P${deal.price}</span>
+                </div>
+            ` : `
+                <div class="deal-price">
+                    <span class="current-price">20% OFF</span>
+                </div>
+            `}
+            <div class="deal-timer">
+                <span>Time Left: ${timeLeft}</span>
             </div>
-            <div class="deal-timer" data-end="${deal.endDate}">
-                <span>Ends in: </span>
-                <span class="countdown"></span>
-            </div>
-            <a href="#" class="deal-button" data-id="${deal.id}">Order Now</a>
+            <button class="deal-button" onclick="addToCart('${deal.title}', ${deal.price || 0})">
+                Add to Cart
+            </button>
             <p class="deal-terms">${deal.terms}</p>
         </div>
     `;
     
     return card;
+}
+
+function getTimeLeft(expiryDate) {
+    const now = new Date();
+    const expiry = new Date(expiryDate);
+    const diff = expiry - now;
+    
+    if (diff <= 0) return "Expired";
+    
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    
+    return `${days}d ${hours}h`;
 }
 
 // Start Countdown Timers
@@ -281,8 +349,18 @@ function setupEventListeners() {
 }
 
 function updateCartDisplay() {
+    console.log('Updating cart display');
+    const cartItems = document.getElementById('cart-items');
+    const cartTotalPrice = document.getElementById('cart-total-price');
+    
+    if (!cartItems || !cartTotalPrice) {
+        console.error('Cart elements not found!');
+        return;
+    }
+    
     cartItems.innerHTML = '';
     let total = 0;
+    
     cart.forEach((item, index) => {
         const cartItem = document.createElement('div');
         cartItem.className = 'cart-item';
@@ -301,6 +379,10 @@ function updateCartDisplay() {
         cartItems.appendChild(cartItem);
         total += item.price * item.quantity;
     });
+    
+    cartTotalPrice.textContent = total;
+
+    // Add event listeners for quantity buttons
     cartItems.querySelectorAll('.quantity-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const index = parseInt(e.target.dataset.index);
@@ -316,6 +398,8 @@ function updateCartDisplay() {
             updateCartDisplay();
         });
     });
+
+    // Add event listeners for remove buttons
     cartItems.querySelectorAll('.remove-item-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const index = parseInt(e.target.dataset.index);
@@ -323,14 +407,15 @@ function updateCartDisplay() {
             updateCartDisplay();
         });
     });
-    cartTotalPrice.textContent = total;
 }
 
 function showCartNotification(message) {
+    console.log('Showing notification:', message);
     const notification = document.createElement('div');
     notification.className = 'cart-notification';
     notification.textContent = message;
     document.body.appendChild(notification);
+    
     setTimeout(() => {
         notification.style.opacity = '0';
         setTimeout(() => {
@@ -356,4 +441,79 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 const hamburgerMenu = document.querySelector('.hamburger-menu');
 const mobileMenu = document.querySelector('.mobile-menu');
 
-}); 
+// Make addToCart available globally
+window.addToCart = function(dealName, price) {
+    console.log('Adding to cart:', dealName, price);
+    const existingItem = cart.find(item => item.name === dealName);
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({ name: dealName, quantity: 1, price: price });
+    }
+    showCartNotification(`${dealName} added to cart!`);
+    updateCartDisplay();
+};
+
+function setupCart() {
+    console.log('Setting up cart');
+    const cartBtn = document.querySelector('.cart-btn');
+    const cartOverlay = document.querySelector('.cart-overlay');
+    const closeCartBtn = document.querySelector('.close-cart-btn');
+    const clearCartBtn = document.querySelector('.clear-cart-btn');
+    const checkoutBtn = document.querySelector('.checkout-btn');
+    const checkoutBtnNav = document.querySelector('.checkout-btn-nav');
+    
+    console.log('Cart elements:', {
+        cartBtn,
+        cartOverlay,
+        closeCartBtn,
+        clearCartBtn,
+        checkoutBtn,
+        checkoutBtnNav
+    });
+    
+    if (cartBtn) {
+        cartBtn.addEventListener('click', () => {
+            console.log('Cart button clicked');
+            cartOverlay.classList.toggle('open');
+        });
+    }
+    
+    if (closeCartBtn) {
+        closeCartBtn.addEventListener('click', () => {
+            console.log('Close cart button clicked');
+            cartOverlay.classList.remove('open');
+        });
+    }
+    
+    if (clearCartBtn) {
+        clearCartBtn.addEventListener('click', () => {
+            console.log('Clear cart button clicked');
+            cart = [];
+            updateCartDisplay();
+            showCartNotification('Cart cleared');
+        });
+    }
+    
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', () => {
+            console.log('Checkout button clicked');
+            if (cart.length === 0) {
+                showCartNotification('Your cart is empty!');
+                return;
+            }
+            window.location.href = 'checkout.html';
+        });
+    }
+    
+    if (checkoutBtnNav) {
+        checkoutBtnNav.addEventListener('click', () => {
+            console.log('Checkout nav button clicked');
+            if (cart.length === 0) {
+                showCartNotification('Your cart is empty!');
+                return;
+            }
+            window.location.href = 'checkout.html';
+        });
+    }
+} 
