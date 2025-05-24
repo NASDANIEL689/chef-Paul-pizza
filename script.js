@@ -10,8 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Mobile menu:', mobileMenu);
 
     // DOM Elements
-    const orderBtn = document.querySelector('.order-btn');
+    const orderBtn = document.querySelector('.primary-btn');
     const cartBtn = document.querySelector('.cart-btn');
+    const checkoutBtn = document.querySelector('.checkout-btn');
+    const checkoutBtnNav = document.querySelector('.checkout-btn-nav');
     const cartOverlay = document.querySelector('.cart-overlay');
     const cartItems = document.getElementById('cart-items');
     const cartTotalPrice = document.getElementById('cart-total-price');
@@ -20,30 +22,95 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setupEventListeners();
     updateCartDisplay();
+    setupFAQ();
 
     // Event Listeners
     function setupEventListeners() {
         // Order Button
-        orderBtn.addEventListener('click', () => {
-            window.location.href = '#menu';
-        });
+        if (orderBtn) {
+            orderBtn.addEventListener('click', () => {
+                window.location.href = 'menu.html';
+            });
+        }
 
         // Cart Button
-        cartBtn.addEventListener('click', () => {
-            cartOverlay.classList.toggle('open');
-        });
+        if (cartBtn) {
+            cartBtn.addEventListener('click', () => {
+                cartOverlay.classList.toggle('open');
+            });
+        }
+
+        // Checkout Buttons
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', () => {
+                if (cart.length === 0) {
+                    showCartNotification('Your cart is empty!');
+                    return;
+                }
+                window.location.href = 'checkout.html';
+            });
+        }
+
+        if (checkoutBtnNav) {
+            checkoutBtnNav.addEventListener('click', () => {
+                if (cart.length === 0) {
+                    showCartNotification('Your cart is empty!');
+                    return;
+                }
+                window.location.href = 'checkout.html';
+            });
+        }
 
         // Close Cart Button
-        closeCartBtn.addEventListener('click', () => {
-            cartOverlay.classList.remove('open');
-        });
+        if (closeCartBtn) {
+            closeCartBtn.addEventListener('click', () => {
+                cartOverlay.classList.remove('open');
+            });
+        }
 
         // Clear Cart Button
-        clearCartBtn.addEventListener('click', () => {
-            cart = [];
-            updateCartDisplay();
-            showCartNotification('Cart cleared');
+        if (clearCartBtn) {
+            clearCartBtn.addEventListener('click', () => {
+                cart = [];
+                updateCartDisplay();
+                showCartNotification('Cart cleared');
+            });
+        }
+
+        // Footer Links
+        document.querySelectorAll('.footer-section a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                if (href) {
+                    window.location.href = href;
+                }
+            });
         });
+
+        // Hamburger Menu
+        if (hamburgerMenu && mobileMenu) {
+            hamburgerMenu.addEventListener('click', () => {
+                hamburgerMenu.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!hamburgerMenu.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                }
+            });
+
+            // Close mobile menu when clicking a link
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                });
+            });
+        }
     }
 
     function addToCart(pizzaName) {
@@ -138,29 +205,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // Expose addToCart globally if needed
     window.addToCart = addToCart;
 
-    // Hamburger Menu Functionality
-    const hamburgerMenu = document.querySelector('.hamburger-menu');
-    const mobileMenu = document.querySelector('.mobile-menu');
+    // FAQ Functionality
+    function setupFAQ() {
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                // Close all other FAQ items
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                        const answer = otherItem.querySelector('.faq-answer');
+                        answer.style.display = 'none';
+                    }
+                });
 
-    if (hamburgerMenu && mobileMenu) {
-        hamburgerMenu.addEventListener('click', () => {
-            hamburgerMenu.classList.toggle('active');
-            mobileMenu.classList.toggle('active');
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!hamburgerMenu.contains(e.target) && !mobileMenu.contains(e.target)) {
-                hamburgerMenu.classList.remove('active');
-                mobileMenu.classList.remove('active');
-            }
-        });
-
-        // Close mobile menu when clicking a link
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburgerMenu.classList.remove('active');
-                mobileMenu.classList.remove('active');
+                // Toggle current FAQ item
+                item.classList.toggle('active');
+                const answer = item.querySelector('.faq-answer');
+                
+                if (item.classList.contains('active')) {
+                    answer.style.display = 'block';
+                    answer.style.animation = 'slideDown 0.3s ease forwards';
+                } else {
+                    answer.style.display = 'none';
+                }
             });
         });
     }
