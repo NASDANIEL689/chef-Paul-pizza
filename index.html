@@ -68,7 +68,7 @@
         }
 
         @media (max-width: 768px) {
-            .nav-links, .nav-buttons {
+            .nav-links {
                 display: none;
             }
 
@@ -78,6 +78,30 @@
 
             .mobile-menu {
                 display: flex;
+            }
+
+            .nav-buttons {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .cart-btn {
+                font-size: 1.5rem;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 5px;
+            }
+
+            .checkout-btn-nav {
+                padding: 8px 15px;
+                background-color: var(--orange);
+                color: var(--white);
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 0.9rem;
             }
 
             .hamburger-menu.active span:nth-child(1) {
@@ -126,8 +150,6 @@
             <a href="popular.html">Popular</a>
             <a href="feedback.html">Feedback</a>
             <a href="contact.html">Contact</a>
-            <button class="cart-btn">🛒 Cart</button>
-            <button class="checkout-btn-nav">Checkout</button>
         </div>
     </header>
 

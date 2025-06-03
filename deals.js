@@ -121,10 +121,10 @@ function createDealCard(deal) {
             <h3 class="deal-title">${deal.title}</h3>
             <p class="deal-description">${deal.description}</p>
             ${deal.price ? `
-                <div class="deal-price">
-                    <span class="original-price">P${deal.originalPrice}</span>
-                    <span class="current-price">P${deal.price}</span>
-                </div>
+            <div class="deal-price">
+                <span class="original-price">P${deal.originalPrice}</span>
+                <span class="current-price">P${deal.price}</span>
+            </div>
             ` : `
                 <div class="deal-price">
                     <span class="current-price">20% OFF</span>
