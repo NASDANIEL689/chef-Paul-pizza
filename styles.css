@@ -313,17 +313,21 @@ h1, h2, h3, h4, h5, h6 {
 .cart-overlay {
     position: fixed;
     top: 0;
-    right: -400px;
-    width: 400px;
-    height: 100%;
-    background-color: var(--white);
+    right: 0;
+    width: 100%;
+    max-width: 400px;
+    height: 100vh;
+    background: var(--white);
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-    transition: right 0.3s ease;
-    z-index: 1001;
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    display: none;
 }
 
 .cart-overlay.open {
-    right: 0;
+    transform: translateX(0);
+    display: block;
 }
 
 .cart-content {
@@ -534,27 +538,27 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Checkout Overlay Styles */
 .checkout-overlay {
-    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    display: none;
     justify-content: center;
     align-items: center;
 }
 
 .checkout-content {
-    background-color: var(--white);
-    padding: 2rem;
-    border-radius: 10px;
+    background: var(--white);
     width: 90%;
     max-width: 600px;
     max-height: 90vh;
-    overflow-y: auto;
+    border-radius: 10px;
+    padding: 2rem;
     position: relative;
+    overflow-y: auto;
 }
 
 .checkout-header {

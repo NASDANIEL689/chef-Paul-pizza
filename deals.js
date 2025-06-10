@@ -308,21 +308,20 @@ function setupEventListeners() {
         });
     }
     // Checkout overlay logic
-    if (checkoutBtnNav && checkoutOverlay) {
-        checkoutBtnNav.addEventListener('click', () => {
-            populateCheckoutOverlay();
-            checkoutOverlay.classList.add('open');
-        });
-    }
     if (checkoutBtn && checkoutOverlay) {
         checkoutBtn.addEventListener('click', () => {
+            if (cart.length === 0) {
+                showCartNotification('Your cart is empty!');
+                return;
+            }
             populateCheckoutOverlay();
-            checkoutOverlay.classList.add('open');
+            checkoutOverlay.style.display = 'flex';
+            cartOverlay.style.display = 'none';
         });
     }
     if (closeCheckoutBtn && checkoutOverlay) {
         closeCheckoutBtn.addEventListener('click', () => {
-            checkoutOverlay.classList.remove('open');
+            checkoutOverlay.style.display = 'none';
         });
     }
     if (orderTypeRadios && deliveryDetails) {
