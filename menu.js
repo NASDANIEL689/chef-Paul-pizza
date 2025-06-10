@@ -138,21 +138,20 @@ function setupEventListeners() {
         });
     }
     // Checkout overlay logic
-    if (checkoutBtnNav && checkoutOverlay) {
-        checkoutBtnNav.addEventListener('click', () => {
-            populateCheckoutOverlay();
-            checkoutOverlay.classList.add('open');
-        });
-    }
     if (checkoutBtn && checkoutOverlay) {
         checkoutBtn.addEventListener('click', () => {
+            if (cart.length === 0) {
+                showCartNotification('Your cart is empty!');
+                return;
+            }
             populateCheckoutOverlay();
-            checkoutOverlay.classList.add('open');
+            checkoutOverlay.style.display = 'flex';
+            cartOverlay.classList.remove('open');
         });
     }
     if (closeCheckoutBtn && checkoutOverlay) {
         closeCheckoutBtn.addEventListener('click', () => {
-            checkoutOverlay.classList.remove('open');
+            checkoutOverlay.style.display = 'none';
         });
     }
     if (orderTypeRadios && deliveryDetails) {
@@ -167,12 +166,45 @@ function setupEventListeners() {
         });
     }
     if (checkoutForm && checkoutOverlay) {
-        checkoutForm.addEventListener('submit', function(e) {
+        checkoutForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            alert('Thank you for your order! We have received your details.');
-            checkoutOverlay.classList.remove('open');
-            cart.length = 0;
-            updateCartDisplay();
+            
+            const submitButton = document.querySelector('.confirm-order-btn');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Processing Payment...';
+            
+            try {
+                // Get form data
+                const formData = {
+                    cardNumber: document.getElementById('cardNumber').value.replace(/\s/g, ''),
+                    expiryDate: document.getElementById('expiryDate').value,
+                    cvv: document.getElementById('cvv').value,
+                    cardName: document.getElementById('cardName').value,
+                    amount: document.getElementById('checkout-total-price').textContent,
+                    customerName: document.getElementById('customerName').value,
+                    customerPhone: document.getElementById('customerPhone').value,
+                    orderType: document.querySelector('input[name="orderType"]:checked').value,
+                    deliveryAddress: document.getElementById('deliveryAddress').value
+                };
+
+                // Here you would typically make an API call to your payment processor
+                // For demonstration, we'll simulate a successful payment
+                await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API call
+
+                // Show success message
+                alert('Payment successful! Your order has been placed.');
+                
+                // Clear cart and close checkout
+                clearCart();
+                document.querySelector('.checkout-overlay').style.display = 'none';
+                
+            } catch (error) {
+                alert('Payment failed. Please try again.');
+                console.error('Payment error:', error);
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Pay & Confirm Order';
+            }
         });
     }
     function populateCheckoutOverlay() {
@@ -358,4 +390,27 @@ if (hamburgerMenu && mobileMenu) {
             mobileMenu.classList.remove('active');
         });
     });
-} 
+}
+
+// Add card number formatting
+document.getElementById('cardNumber').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    value = value.replace(/(\d{4})/g, '$1 ').trim();
+    e.target.value = value;
+});
+
+// Add expiry date formatting
+document.getElementById('expiryDate').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length >= 2) {
+        value = value.slice(0,2) + '/' + value.slice(2,4);
+    }
+    e.target.value = value;
+});
+
+// Add CVV validation
+document.getElementById('cvv').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    value = value.slice(0,3);
+    e.target.value = value;
+}); 
