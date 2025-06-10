@@ -265,6 +265,32 @@ h1, h2, h3, h4, h5, h6 {
     .quick-links {
         grid-template-columns: 1fr;
     }
+
+    .nav-buttons {
+        display: flex !important;
+        align-items: center;
+        margin-right: -0.5rem;
+    }
+
+    .cart-btn {
+        padding: 0;
+        background: none;
+        border: none;
+    }
+
+    .cart-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .hamburger-menu {
+        display: flex;
+        margin-left: 0;
+    }
+
+    .mobile-menu {
+        display: flex;
+    }
 }
 
 /* Animations */

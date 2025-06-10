@@ -1,3 +1,5 @@
+import { dealFunctions } from './order-management-system/supabase.js';
+
 console.log('Deals.js loaded');
 
 // Deals Data
@@ -44,22 +46,31 @@ const dealsGrid = document.querySelector('.deals-grid');
 let cart = [];
 
 // Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     console.log('Initializing deals page');
     
     const dealsGrid = document.querySelector('.deals-grid');
     console.log('Found deals grid:', dealsGrid);
     
     if (dealsGrid) {
-        // Clear existing content
-        dealsGrid.innerHTML = '';
-        
-        // Populate deals
-        deals.forEach(deal => {
-            const dealCard = createDealCard(deal);
-            dealsGrid.appendChild(dealCard);
-        });
-        console.log('Deals populated');
+        try {
+            // Clear existing content
+            dealsGrid.innerHTML = '';
+            
+            // Fetch deals from database
+            const deals = await dealFunctions.getActiveDeals();
+            console.log('Fetched deals:', deals);
+            
+            // Populate deals
+            deals.forEach(deal => {
+                const dealCard = createDealCard(deal);
+                dealsGrid.appendChild(dealCard);
+            });
+            console.log('Deals populated');
+        } catch (error) {
+            console.error('Error fetching deals:', error);
+            dealsGrid.innerHTML = '<p class="error-message">Error loading deals. Please try again later.</p>';
+        }
     } else {
         console.error('Deals grid not found!');
     }
@@ -112,7 +123,7 @@ function createDealCard(deal) {
     const card = document.createElement('div');
     card.className = 'deal-card';
     
-    const timeLeft = getTimeLeft(deal.expiryDate);
+    const timeLeft = getTimeLeft(deal.expiry_date);
     
     card.innerHTML = `
         <div class="deal-badge">${deal.badge}</div>
@@ -122,12 +133,12 @@ function createDealCard(deal) {
             <p class="deal-description">${deal.description}</p>
             ${deal.price ? `
             <div class="deal-price">
-                <span class="original-price">P${deal.originalPrice}</span>
+                <span class="original-price">P${deal.original_price}</span>
                 <span class="current-price">P${deal.price}</span>
             </div>
             ` : `
                 <div class="deal-price">
-                    <span class="current-price">20% OFF</span>
+                    <span class="current-price">${deal.discount_percentage}% OFF</span>
                 </div>
             `}
             <div class="deal-timer">

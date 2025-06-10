@@ -182,28 +182,33 @@
         }
 
         @media (max-width: 768px) {
-            .nav-links, .nav-buttons {
+            .nav-links {
                 display: none;
             }
 
+            .nav-buttons {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            }
+
             .hamburger-menu {
-                display: block;
+                display: flex;
             }
 
             .mobile-menu {
                 display: flex;
             }
 
-            /* Hamburger icon animation */
-            .hamburger-menu.active .hamburger-inner span:nth-child(1) {
+            .hamburger-menu.active span:nth-child(1) {
                 transform: translateY(9px) rotate(45deg);
             }
 
-            .hamburger-menu.active .hamburger-inner span:nth-child(2) {
+            .hamburger-menu.active span:nth-child(2) {
                 opacity: 0;
             }
 
-            .hamburger-menu.active .hamburger-inner span:nth-child(3) {
+            .hamburger-menu.active span:nth-child(3) {
                 transform: translateY(-9px) rotate(-45deg);
             }
         }
@@ -335,6 +340,29 @@
             opacity: 1;
             transition: opacity 0.5s ease;
         }
+
+        .cart-btn {
+            padding: 0.5rem 1.5rem;
+            background-color: var(--red);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cart-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        .cart-btn:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -353,8 +381,7 @@
                 <a href="contact.html">Contact</a>
             </div>
             <div class="nav-buttons">
-                <button class="cart-btn">🛒</button>
-                <button class="checkout-btn-nav">Checkout</button>
+                <button class="cart-btn"><img src="pics/icons8-cart-60.png" alt="Cart" class="cart-icon"></button>
             </div>
             <button class="hamburger-menu" aria-label="Menu">
                 <div class="hamburger-inner">
@@ -371,8 +398,6 @@
             <a href="popular.html">Popular</a>
             <a href="feedback.html">Feedback</a>
             <a href="contact.html">Contact</a>
-            <button class="cart-btn">🛒 Cart</button>
-            <button class="checkout-btn-nav">Checkout</button>
         </div>
     </header>
 
