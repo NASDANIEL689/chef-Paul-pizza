@@ -259,13 +259,15 @@ function setupEventListeners() {
     // Cart Button
     if (cartBtn && cartOverlay) {
         cartBtn.addEventListener('click', () => {
-            cartOverlay.classList.toggle('open');
+            cartOverlay.style.display = 'block';
+            cartOverlay.classList.add('open');
         });
     }
     // Close Cart Button
     if (closeCartBtn && cartOverlay) {
         closeCartBtn.addEventListener('click', () => {
             cartOverlay.classList.remove('open');
+            cartOverlay.style.display = 'none';
         });
     }
     // Clear Cart Button
