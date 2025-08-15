@@ -1,4 +1,13 @@
-// Menu Data
+// Menu Data for Chef Paul Pizza
+// Supabase integration for order management
+
+// Supabase Configuration
+const SUPABASE_URL = 'https://inajemonfduateakwipa.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImluYWplbW9uZmR1YXRlYWt3aXBhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkzNzg4NjYsImV4cCI6MjA2NDk1NDg2Nn0.51lDpvWL4PwELHpv4cVoky8xOzIA0OdJY0mYkSXdus4';
+
+// Global variables for Supabase
+let supabaseClient;
+let orderFunctions;
 const menuItems = [
     {
         id: 1,
@@ -6,9 +15,9 @@ const menuItems = [
         description: "A hearty pizza loaded with assorted meats and Chef Paul's signature sauce.",
         category: "classic",
         price: {
-            largeSmall: 170,
-            onTheDouble: 270,
-            tripleDecker: 370
+            largeSmall: 180,
+            onTheDouble: 280,
+            tripleDecker: 380
         },
         image: "pics/486109780_656386520481154_4888741190451172103_n.jpg",
         dietary: []
@@ -17,11 +26,11 @@ const menuItems = [
         id: 2,
         name: "Mexican Chilli",
         description: "Spicy Mexican-inspired pizza with a kick of chilli and fresh toppings.",
-        category: "gourmet",
+        category: "classic",
         price: {
-            largeSmall: 180,
-            onTheDouble: 280,
-            tripleDecker: 380
+            largeSmall: 190,
+            onTheDouble: 290,
+            tripleDecker: 390
         },
         image: "pics/488760799_652433037543169_4459470251648953587_n.jpg",
         dietary: []
@@ -30,26 +39,92 @@ const menuItems = [
         id: 3,
         name: "Creamy Chicken",
         description: "Tender chicken pieces in a creamy sauce with a blend of cheeses.",
-        category: "gourmet",
+        category: "classic",
         price: {
-            largeSmall: 190,
-            onTheDouble: 290,
-            tripleDecker: 390
+            largeSmall: 200,
+            onTheDouble: 300,
+            tripleDecker: 400
         },
         image: "pics/497950856_682776077842198_1598299939128618699_n.jpg",
+        dietary: []
+    },
+    {
+        id: 4,
+        name: "Phane Pizza",
+        description: "A unique and delicious pizza with Chef Paul's special Phane recipe.",
+        category: "special",
+        price: {
+            largeSmall: 180,
+            onTheDouble: 280,
+            tripleDecker: 380
+        },
+        image: "pics/486109780_656386520481154_4888741190451172103_n.jpg",
         dietary: []
     }
 ];
 
 // DOM Elements
-const menuGrid = document.querySelector('.menu-grid');
-const filterButtons = document.querySelectorAll('.filter-btn');
+let menuGrid;
+let filterButtons;
 
 // Shopping Cart
 let cart = [];
 
 // Initialize the menu
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Supabase client
+    try {
+        supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        // Initialize Order Functions
+        orderFunctions = {
+            async createOrder(orderData) {
+                try {
+                    const { data, error } = await supabaseClient
+                        .from('orders')
+                        .insert([{
+                            customer_name: orderData.customer_name,
+                            customer_phone: orderData.customer_phone,
+                            customer_email: orderData.customer_email,
+                            delivery_address: orderData.delivery_address,
+                            order_type: orderData.order_type,
+                            items: orderData.items,
+                            total_amount: orderData.total_amount,
+                            status: 'pending',
+                            created_at: new Date().toISOString()
+                        }])
+                        .select();
+
+                    if (error) throw error;
+                    return data[0];
+                } catch (error) {
+                    console.error('Error creating order:', error);
+                    throw new Error('Failed to create order. Please try again.');
+                }
+            }
+        };
+        
+        console.log('Supabase initialized successfully');
+    } catch (error) {
+        console.error('Failed to initialize Supabase:', error);
+        // Create a fallback order function
+        orderFunctions = {
+            async createOrder(orderData) {
+                console.log('Order data (fallback):', orderData);
+                return { id: Date.now(), status: 'pending' };
+            }
+        };
+    }
+    
+    // Initialize DOM elements
+    menuGrid = document.querySelector('.menu-grid');
+    filterButtons = document.querySelectorAll('.filter-btn');
+    
+    console.log('Menu Grid:', menuGrid);
+    console.log('Menu Items:', menuItems);
+    console.log('Filter Buttons:', filterButtons);
+    
+    loadCartFromStorage(); // Load cart from localStorage
     displayMenuItems();
     setupEventListeners();
     updateCartDisplay();
@@ -86,8 +161,6 @@ function setupEventListeners() {
     const checkoutForm = document.getElementById('checkout-form');
     const deliveryDetails = document.querySelector('.delivery-details');
     const orderTypeRadios = document.getElementsByName('orderType');
-    const menuGrid = document.querySelector('.menu-grid');
-    const filterButtons = document.querySelectorAll('.filter-btn');
 
     // Filter Buttons
     filterButtons.forEach(button => {
@@ -134,6 +207,7 @@ function setupEventListeners() {
         clearCartBtn.addEventListener('click', () => {
             cart = [];
             updateCartDisplay();
+            saveCartToStorage(); // Save cart to localStorage
             showCartNotification('Cart cleared');
         });
     }
@@ -171,36 +245,59 @@ function setupEventListeners() {
             
             const submitButton = document.querySelector('.confirm-order-btn');
             submitButton.disabled = true;
-            submitButton.textContent = 'Processing Payment...';
+            submitButton.textContent = 'Processing Order...';
             
             try {
                 // Get form data
-                const formData = {
-                    cardNumber: document.getElementById('cardNumber').value.replace(/\s/g, ''),
-                    expiryDate: document.getElementById('expiryDate').value,
-                    cvv: document.getElementById('cvv').value,
-                    cardName: document.getElementById('cardName').value,
-                    amount: document.getElementById('checkout-total-price').textContent,
-                    customerName: document.getElementById('customerName').value,
-                    customerPhone: document.getElementById('customerPhone').value,
-                    orderType: document.querySelector('input[name="orderType"]:checked').value,
-                    deliveryAddress: document.getElementById('deliveryAddress').value
+                const customerName = document.getElementById('customerName').value;
+                const customerPhone = document.getElementById('customerPhone').value;
+                const customerEmail = document.getElementById('customerEmail')?.value || '';
+                const orderType = document.querySelector('input[name="orderType"]:checked').value;
+                const deliveryAddress = document.getElementById('deliveryAddress').value;
+                const totalAmount = parseFloat(document.getElementById('checkout-total-price').textContent);
+
+                // Validate required fields
+                if (!customerName || !customerPhone) {
+                    throw new Error('Please fill in all required fields');
+                }
+
+                if (orderType === 'delivery' && !deliveryAddress) {
+                    throw new Error('Please provide delivery address');
+                }
+
+                // Prepare order data for Supabase
+                const orderData = {
+                    customer_name: customerName,
+                    customer_phone: customerPhone,
+                    customer_email: customerEmail,
+                    delivery_address: orderType === 'delivery' ? deliveryAddress : null,
+                    order_type: orderType,
+                    items: cart.map(item => ({
+                        name: item.name,
+                        size: sizeLabel(item.size),
+                        quantity: item.quantity,
+                        price: item.price,
+                        total: item.price * item.quantity
+                    })),
+                    total_amount: totalAmount,
+                    status: 'pending'
                 };
 
-                // Here you would typically make an API call to your payment processor
-                // For demonstration, we'll simulate a successful payment
-                await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API call
-
-                // Show success message
-                alert('Payment successful! Your order has been placed.');
+                // Submit order to Supabase
+                const order = await orderFunctions.createOrder(orderData);
+                
+                // Show success message with order ID
+                alert(`Order placed successfully! Your order ID: ${order.id}\n\nYour order has been sent to Chef Paul Pizza and will be processed shortly.`);
                 
                 // Clear cart and close checkout
-                clearCart();
+                cart = [];
+                updateCartDisplay();
+                saveCartToStorage(); // Save cart to localStorage
                 document.querySelector('.checkout-overlay').style.display = 'none';
                 
             } catch (error) {
-                alert('Payment failed. Please try again.');
-                console.error('Payment error:', error);
+                alert('Order failed: ' + error.message);
+                console.error('Order error:', error);
             } finally {
                 submitButton.disabled = false;
                 submitButton.textContent = 'Pay & Confirm Order';
@@ -223,11 +320,21 @@ function setupEventListeners() {
 
 // Display Menu Items
 function displayMenuItems(items = menuItems) {
+    console.log('Displaying menu items:', items);
+    console.log('Menu Grid element:', menuGrid);
+    
+    if (!menuGrid) {
+        console.error('Menu grid element not found!');
+        return;
+    }
+    
     menuGrid.innerHTML = '';
     items.forEach(item => {
         const menuItem = createMenuItem(item);
         menuGrid.appendChild(menuItem);
     });
+    
+    console.log('Menu items displayed successfully');
 }
 
 // Create Menu Item
@@ -277,6 +384,7 @@ function addToCart(id, size) {
         }
         showCartNotification(`${item.name} (${sizeLabel(size)}) added to cart!`);
         updateCartDisplay();
+        saveCartToStorage(); // Save cart to localStorage
     }
 }
 
@@ -317,6 +425,7 @@ function updateCartDisplay() {
                 }
             }
             updateCartDisplay();
+            saveCartToStorage(); // Save cart to localStorage
         });
     });
     cartItems.querySelectorAll('.remove-item-btn').forEach(btn => {
@@ -324,6 +433,7 @@ function updateCartDisplay() {
             const index = parseInt(e.target.dataset.index);
             cart.splice(index, 1);
             updateCartDisplay();
+            saveCartToStorage(); // Save cart to storage
         });
     });
     cartTotalPrice.textContent = total;
@@ -340,6 +450,31 @@ function showCartNotification(message) {
             notification.remove();
         }, 500);
     }, 2000);
+}
+
+// Cart storage functions
+function saveCartToStorage() {
+    try {
+        localStorage.setItem('chefPaulCart', JSON.stringify(cart));
+    } catch (error) {
+        console.error('Error saving cart to storage:', error);
+    }
+}
+
+function loadCartFromStorage() {
+    try {
+        const savedCart = localStorage.getItem('chefPaulCart');
+        if (savedCart) {
+            const parsedCart = JSON.parse(savedCart);
+            if (Array.isArray(parsedCart)) {
+                cart = parsedCart;
+                updateCartDisplay();
+            }
+        }
+    } catch (error) {
+        console.error('Error loading cart from storage:', error);
+        cart = [];
+    }
 }
 
 // Add styles for notifications

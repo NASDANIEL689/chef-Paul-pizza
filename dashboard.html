@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chef Paul Pizza - Order Management Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <header class="dashboard-header">
+        <div class="header-content">
+            <h1>🍕 Chef Paul Pizza Dashboard</h1>
+            <div class="header-actions">
+                <button id="refreshBtn" class="btn btn-primary">🔄 Refresh Orders</button>
+                <button id="testBtn" class="btn btn-primary">🧪 Test Connection</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        <!-- Order Statistics -->
+        <section class="stats-section">
+            <div class="stat-card">
+                <h3>🍕 Total Orders</h3>
+                <p id="totalOrders">0</p>
+            </div>
+            <div class="stat-card pending">
+                <h3>⏳ Pending</h3>
+                <p id="pendingOrders">0</p>
+            </div>
+            <div class="stat-card processing">
+                <h3>👨‍🍳 Processing</h3>
+                <p id="processingOrders">0</p>
+            </div>
+            <div class="stat-card completed">
+                <h3>✅ Completed</h3>
+                <p id="completedOrders">0</p>
+            </div>
+        </section>
+
+        <!-- Order Filters -->
+        <section class="filters-section">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-status="all">All Orders</button>
+                <button class="filter-btn" data-status="pending">Pending</button>
+                <button class="filter-btn" data-status="processing">Processing</button>
+                <button class="filter-btn" data-status="ready">Ready</button>
+                <button class="filter-btn" data-status="completed">Completed</button>
+            </div>
+        </section>
+
+        <!-- Orders List -->
+        <section class="orders-section">
+            <div id="ordersList" class="orders-grid">
+                <!-- Orders will be populated here -->
+            </div>
+        </section>
+    </main>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

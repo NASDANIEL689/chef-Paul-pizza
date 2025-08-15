@@ -1,4 +1,20 @@
-import { dealFunctions } from './order-management-system/supabase.js';
+// Deals Data
+// Note: Supabase integration requires a web server to work properly
+// For now, we'll use local storage for orders
+
+// NOTE: Avoid using ESM imports here because this script is not loaded as a module.
+// If a backend is available, replace this stub with a real implementation.
+const dealFunctions = {
+    getDeals: async () => {
+        throw new Error('Deals backend not configured');
+    }
+};
+
+const orderFunctions = {
+    createOrder: async (_orderData) => {
+        throw new Error('Order backend not configured');
+    }
+};
 
 console.log('Deals.js loaded');
 
@@ -36,6 +52,83 @@ const deals = [
         badge: "Student Special",
         expiryDate: "2024-12-31",
         terms: "Must present valid student ID. Not valid with other offers."
+    },
+    {
+        id: 4,
+        title: "Lunch Rush Special",
+        description: "Any Medium Pizza + Soft Drink + Garlic Bread",
+        price: 129,
+        originalPrice: 189,
+        image: "pics/496452071_684132747706531_9034893973497367974_n.jpg",
+        badge: "Lunch Time",
+        expiryDate: "2024-12-31",
+        terms: "Valid Monday-Friday 11AM-3PM only."
+    },
+    {
+        id: 5,
+        title: "Triple Decker Deal",
+        description: "3 Large Pizzas of your choice + 2L Soda + 2 Garlic Breads",
+        price: 399,
+        originalPrice: 549,
+        image: "pics/486109780_656386520481154_4888741190451172103_n.jpg",
+        badge: "Party Pack",
+        expiryDate: "2024-05-15",
+        terms: "Perfect for parties and gatherings. 24-hour advance notice required."
+    },
+    {
+        id: 6,
+        title: "Vegetarian Bundle",
+        description: "2 Large Veggie Pizzas + Garden Salad + 1L Juice",
+        price: 249,
+        originalPrice: 329,
+        image: "pics/496452071_684132747706531_9034893973497367974_n.jpg",
+        badge: "Veggie Special",
+        expiryDate: "2024-06-30",
+        terms: "Valid on all vegetarian pizzas. Fresh ingredients guaranteed."
+    },
+    {
+        id: 7,
+        title: "Late Night Special",
+        description: "Any Large Pizza + 2 Toppings + Free Delivery",
+        price: 159,
+        originalPrice: 219,
+        image: "pics/488760799_652433037543169_4459470251648953587_n.jpg",
+        badge: "Late Night",
+        expiryDate: "2024-12-31",
+        terms: "Valid 9PM-11PM daily. Delivery within 3km radius."
+    },
+    {
+        id: 8,
+        title: "First Order Discount",
+        description: "50% off your first order when you order online",
+        price: null,
+        originalPrice: null,
+        image: "pics/ivan-torres-MQUqbmszGGM-unsplash.jpg",
+        badge: "New Customer",
+        expiryDate: "2024-12-31",
+        terms: "First-time customers only. Use code: FIRST50 at checkout."
+    },
+    {
+        id: 9,
+        title: "Birthday Special",
+        description: "Free Large Pizza on your birthday + 20% off entire order",
+        price: null,
+        originalPrice: null,
+        image: "pics/497950856_682776077842198_1598299939128618699_n.jpg",
+        badge: "Birthday",
+        expiryDate: "2024-12-31",
+        terms: "Valid on your birthday only. Must show valid ID."
+    },
+    {
+        id: 10,
+        title: "Corporate Lunch",
+        description: "10 Large Pizzas + 5 Garlic Breads + 5L Soda",
+        price: 899,
+        originalPrice: 1299,
+        image: "pics/500642364_687730764013396_5545638874431695074_n (3).jpg",
+        badge: "Corporate",
+        expiryDate: "2024-12-31",
+        terms: "For office orders. 48-hour advance notice required."
     }
 ];
 
@@ -46,7 +139,7 @@ const dealsGrid = document.querySelector('.deals-grid');
 let cart = [];
 
 // Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', async function() {
+document.addEventListener('DOMContentLoaded', function() {
     console.log('Initializing deals page');
     
     const dealsGrid = document.querySelector('.deals-grid');
@@ -57,9 +150,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             // Clear existing content
             dealsGrid.innerHTML = '';
             
-            // Fetch deals from database
-            const deals = await dealFunctions.getActiveDeals();
-            console.log('Fetched deals:', deals);
+            // Use local deals array
+            console.log('Using local deals:', deals);
             
             // Populate deals
             deals.forEach(deal => {
@@ -68,7 +160,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
             console.log('Deals populated');
         } catch (error) {
-            console.error('Error fetching deals:', error);
+            console.error('Error loading deals:', error);
             dealsGrid.innerHTML = '<p class="error-message">Error loading deals. Please try again later.</p>';
         }
     } else {
@@ -123,7 +215,7 @@ function createDealCard(deal) {
     const card = document.createElement('div');
     card.className = 'deal-card';
     
-    const timeLeft = getTimeLeft(deal.expiry_date);
+    const timeLeft = getTimeLeft(deal.expiryDate);
     
     card.innerHTML = `
         <div class="deal-badge">${deal.badge}</div>
@@ -133,12 +225,12 @@ function createDealCard(deal) {
             <p class="deal-description">${deal.description}</p>
             ${deal.price ? `
             <div class="deal-price">
-                <span class="original-price">P${deal.original_price}</span>
+                <span class="original-price">P${deal.originalPrice}</span>
                 <span class="current-price">P${deal.price}</span>
             </div>
             ` : `
                 <div class="deal-price">
-                    <span class="current-price">${deal.discount_percentage}% OFF</span>
+                    <span class="current-price">Special Offer</span>
                 </div>
             `}
             <div class="deal-timer">
@@ -528,4 +620,83 @@ function setupCart() {
             window.location.href = 'checkout.html';
         });
     }
-} 
+}
+
+// Enhanced checkout form submission
+function setupCheckoutForm() {
+    const checkoutForm = document.getElementById('checkout-form');
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitButton = document.querySelector('.confirm-order-btn');
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Processing Order...';
+            }
+            
+            try {
+                // Get form data
+                const customerName = document.getElementById('customerName')?.value;
+                const customerPhone = document.getElementById('customerPhone')?.value;
+                const customerEmail = document.getElementById('customerEmail')?.value || '';
+                const orderType = document.querySelector('input[name="orderType"]:checked')?.value;
+                const deliveryAddress = document.getElementById('deliveryAddress')?.value;
+                const totalAmount = parseFloat(document.getElementById('checkout-total-price')?.textContent || '0');
+
+                // Validate required fields
+                if (!customerName || !customerPhone) {
+                    throw new Error('Please fill in all required fields');
+                }
+
+                if (orderType === 'delivery' && !deliveryAddress) {
+                    throw new Error('Please provide delivery address');
+                }
+
+                // Prepare order data for Supabase
+                const orderData = {
+                    customer_name: customerName,
+                    customer_phone: customerPhone,
+                    customer_email: customerEmail,
+                    delivery_address: orderType === 'delivery' ? deliveryAddress : null,
+                    items: cart.map(item => ({
+                        name: item.name,
+                        quantity: item.quantity,
+                        price: item.price,
+                        total: item.price * item.quantity
+                    })),
+                    total_amount: totalAmount,
+                    status: 'pending'
+                };
+
+                // Submit order to Supabase
+                const order = await orderFunctions.createOrder(orderData);
+                
+                // Show success message with order ID
+                alert(`Order placed successfully! Your order ID: ${order.id}\n\nYour order has been sent to Chef Paul Pizza and will be processed shortly.`);
+                
+                // Clear cart and close checkout
+                cart = [];
+                updateCartDisplay();
+                const checkoutOverlay = document.querySelector('.checkout-overlay');
+                if (checkoutOverlay) {
+                    checkoutOverlay.style.display = 'none';
+                }
+                
+            } catch (error) {
+                alert('Order failed: ' + error.message);
+                console.error('Order error:', error);
+            } finally {
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Pay & Confirm Order';
+                }
+            }
+        });
+    }
+}
+
+// Initialize checkout form when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    setupCheckoutForm();
+}); 

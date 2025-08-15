@@ -290,7 +290,6 @@
                 <a href="index.html">Home</a>
                 <a href="menu.html">Menu</a>
                 <a href="deals.html">Deals</a>
-                <a href="popular.html">Popular</a>
                 <a href="feedback.html">Feedback</a>
                 <a href="contact.html">Contact</a>
             </div>
@@ -307,7 +306,6 @@
             <a href="index.html">Home</a>
             <a href="menu.html">Menu</a>
             <a href="deals.html">Deals</a>
-            <a href="popular.html">Popular</a>
             <a href="feedback.html">Feedback</a>
             <a href="contact.html">Contact</a>
         </div>
@@ -318,6 +316,12 @@
         <div class="menu-header">
             <h1>Our Menu</h1>
             <p>Discover our delicious selection of pizzas</p>
+        </div>
+
+        <div class="menu-filters">
+            <button class="filter-btn active" data-category="all">All Pizzas</button>
+            <button class="filter-btn" data-category="classic">Classic</button>
+            <button class="filter-btn" data-category="special">Special</button>
         </div>
 
         <div class="menu-grid">
@@ -430,5 +434,7 @@
             </form>
         </div>
     </div>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="menu.js"></script>
 </body>
 </html> 
