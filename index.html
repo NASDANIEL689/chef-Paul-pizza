@@ -61,7 +61,7 @@
         .mobile-menu button {
             width: 100%;
             padding: 12px;
-            margin: 5px 0;
+            margin: 10px 0;
             border: none;
             border-radius: 5px;
             background-color: var(--orange);
@@ -78,8 +78,11 @@
             .nav-buttons {
                 display: flex;
                 align-items: center;
-                gap: 1rem;
+                gap: 0.6rem;
             }
+
+            /* Revert to flex layout */
+            .nav-container { display: flex; justify-content: space-between; }
 
             .hamburger-menu {
                 display: flex;
@@ -137,7 +140,7 @@
                 <a href="index.html">Home</a>
                 <a href="menu.html">Menu</a>
                 <a href="deals.html">Deals</a>
-                <a href="feedback.html">Feedback</a>
+                <a href="about.html">About Us</a>
                 <a href="contact.html">Contact</a>
             </div>
             <div class="nav-buttons">
@@ -153,9 +156,7 @@
             <a href="index.html">Home</a>
             <a href="menu.html">Menu</a>
             <a href="deals.html">Deals</a>
-            <a href="popular.html">Popular</a>
-            <a href="feedback.html">Feedback</a>
-            <a href="contact.html">Contact</a>
+            <a href="about.html">About Us</a>
         </div>
     </header>
 
@@ -169,91 +170,40 @@
                     <span class="logo-icon">🍕</span>
                     <span class="logo-text">Chef Paul's</span>
                 </div>
-                <div class="hero-contact">
-                    <span class="contact-icon">📞</span>
-                    <span>+267 77 638 172</span>
-                </div>
+                
             </div>
             
-            <div class="hero-main">
+            <div class="hero-main hero-main--compact">
                 <div class="hero-left">
-                    <div class="hero-tagline">
-                        <span class="tagline-icon">⭐</span>
-                        <span>Authentic Kasi Flavor</span>
+                    <div class="hero-chip-row">
+                        <span class="chip">🔥 Hot & Fresh</span>
+                        <span class="chip">🍕 Wood-Fired</span>
+                        <span class="chip">⭐ Chef's Pick</span>
                     </div>
                     <h1 class="hero-title">
-                        <span class="title-line">Where Every Bite</span>
-                        <span class="title-line">is Packed with</span>
-                        <span class="title-highlight">Kasi Flavor!</span>
+                        <span class="title-line">Bold, Street-Style</span>
+                        <span class="title-highlight">Umami Pizza</span>
                     </h1>
-            <p>Indulge in handcrafted pizzas made with the freshest farm-to-table ingredients, layered with bold, unforgettable flavors, and finished with Chef Paul’s signature touch of umami perfection.</p>
-                    <div class="hero-stats">
-                        <div class="stat-item">
-                            <span class="stat-number">500+</span>
-                            <span class="stat-label">Happy Customers</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">50+</span>
-                            <span class="stat-label">Pizza Varieties</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">24/7</span>
-                            <span class="stat-label">Fresh Service</span>
-                        </div>
-                    </div>
-                    
-                    <div class="hero-actions">
-                        <button class="cta-primary">
-                            <span class="cta-icon">🔥</span>
+                    <p class="hero-description">Handcrafted pizzas with farm-fresh toppings and Chef Paul's signature umami twist. Order now for quick pickup.</p>
+                    <div class="hero-cta-row">
+                        <a class="cta-primary" href="menu.html">
+                            <span class="cta-icon">🚀</span>
                             Order Now
-                        </button>
-                        <a href="menu.html" class="cta-secondary">
-                            <span class="cta-icon">📋</span>
-                            View Menu
+                        </a>
+                        <a class="cta-secondary cta-call" href="tel:+26777638172">
+                            <span class="cta-icon">📞</span>
+                            Call Now
                         </a>
                     </div>
+                    <div class="hero-trust-row">
+                        <div class="trust-item">✅ No.1 Local Favorite</div>
+                        <div class="trust-item">🚚 Fast Pickup</div>
+                    </div>
                 </div>
-                
                 <div class="hero-right">
-                    <div class="hero-image-stack">
-                        <div class="image-main">
-                            <img src="pics/486109780_656386520481154_4888741190451172103_n.jpg" alt="Delicious Pizza">
-                            <div class="image-overlay">
-                                <span class="overlay-text">Fresh Daily</span>
-                            </div>
-                        </div>
-                        <div class="image-secondary">
-                            <img src="pics/488760799_652433037543169_4459470251648953587_n.jpg" alt="Pizza Close-up">
-                        </div>
-                        <div class="floating-elements">
-                            <div class="floating-badge floating-badge-1">
-                                <div class="badge-content">
-                                    <span class="badge-emoji">🍕</span>
-                                    <div class="badge-text">
-                                        <h4>Meat Lovers</h4>
-                                        <p>P180</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="floating-badge floating-badge-2">
-                                <div class="badge-content">
-                                    <span class="emoji">🔥</span>
-                                    <div class="badge-text">
-                                        <h4>Hot & Fresh</h4>
-                                        <p>Made Daily</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="floating-badge floating-badge-3">
-                                <div class="badge-content">
-                                    <span class="badge-emoji">⭐</span>
-                                    <div class="badge-text">
-                                        <h4>Chef's Choice</h4>
-                                        <p>Premium Quality</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="hero-phone-visual">
+                        <img src="pics/486109780_656386520481154_4888741190451172103_n.jpg" alt="Signature Pizza">
+                        <span class="phone-badge">Best Seller</span>
                     </div>
                 </div>
             </div>
@@ -404,7 +354,7 @@
             </div>
             <div class="feedback-cta">
                 <p>Share your experience with us!</p>
-                <a href="feedback.html" class="feedback-btn">Write a Review</a>
+                <a href="about.html" class="feedback-btn">Write a Review</a>
             </div>
         </div>
     </section>
@@ -425,7 +375,7 @@
             <div class="footer-section">
                 <h3>Contact Us</h3>
                 <p>Chef Paul's Umami Pizza Kitchen</p>
-                <p>Gaborone | Tlokweng</p>
+                <p>Gaborone | Bontleng | Block 9</p>
                 <p>Phone: +267 77 638 172</p>
                 <p>Email: paulnyeku@gmail.com</p>
             </div>

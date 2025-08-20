@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us • Chef Paul's Umami Pizza Kitchen</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .about-hero { padding: 140px 1rem 40px; text-align: center; }
+        .about-hero h1 { font-size: 2.2rem; color: var(--dark); }
+        .about-hero p { max-width: 800px; margin: 0.75rem auto 0; color: var(--dark); opacity: 0.8; }
+
+        .about-grid { max-width: 1100px; margin: 30px auto; padding: 0 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .about-card { background: #fafafa; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
+        .about-card h3 { margin-bottom: 0.5rem; color: var(--dark); }
+        .about-card p, .about-card li { color: var(--dark); opacity: 0.9; line-height: 1.7; }
+        .about-list { padding-left: 1rem; }
+
+        .split-grid { max-width: 1100px; margin: 30px auto; padding: 0 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .contact-block, .feedback-block { background: #fafafa; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
+        .contact-block h2, .feedback-block h2 { margin-bottom: 0.75rem; color: var(--dark); }
+
+        .feedback-form .rating-row { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; }
+        .feedback-form .rating-btn { padding: 0.5rem 1rem; border: 2px solid var(--red); background: var(--white); color: var(--dark-gray); border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+        .feedback-form .rating-btn:hover, .feedback-form .rating-btn.active { background: var(--red); color: var(--white); border-color: var(--red); }
+        .feedback-form .submit-btn { width: 100%; padding: 1rem; background: var(--red); color: var(--white); border: none; border-radius: 8px; font-weight: 700; cursor: pointer; }
+
+        @media (max-width: 768px) {
+            .about-grid, .split-grid { grid-template-columns: 1fr; }
+            .about-hero { padding-top: 120px; }
+        }
+
+        /* Hamburger Menu Styles (match other pages) */
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1000;
+        }
+
+        .hamburger-menu span {
+            width: 100%;
+            height: 3px;
+            background-color: var(--dark-gray);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--white);
+            padding: 80px 20px 20px;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 999;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.active { transform: translateX(0); }
+
+        .mobile-menu a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-buttons { display: flex; align-items: center; gap: 0.6rem; }
+            .hamburger-menu { display: flex; }
+            .mobile-menu { display: flex; }
+            .hamburger-menu.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .hamburger-menu.active span:nth-child(2) { opacity: 0; }
+            .hamburger-menu.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo"><img src="pics/logo.png" alt="Chef Paul's Umami Pizza Kitchen" class="logo-image"></div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="menu.html">Menu</a>
+                <a href="deals.html">Deals</a>
+                <a href="about.html">About Us</a>
+            </div>
+            <div class="nav-buttons">
+                <button class="cart-btn"><img src="pics/icons8-cart-60.png" alt="Cart" class="cart-icon"></button>
+            </div>
+            <button class="hamburger-menu"><span></span><span></span><span></span></button>
+        </nav>
+        <div class="mobile-menu">
+            <a href="index.html">Home</a>
+            <a href="menu.html">Menu</a>
+            <a href="deals.html">Deals</a>
+            <a href="about.html">About Us</a>
+        </div>
+    </header>
+
+    <section class="about-hero">
+        <h1>Chef Paul’s Umami Pizza Kitchen</h1>
+        <p>Born in Gaborone and inspired by Botswana’s vibrant street-food culture, Chef Paul’s Umami Pizza Kitchen blends bold flavors, fresh local produce, and handcrafted dough techniques to create pizzas that taste like home with a gourmet twist.</p>
+    </section>
+
+    <section class="about-grid">
+        <div class="about-card">
+            <h3>Our Story</h3>
+            <p>Founded by Chef Paul in 2024, the kitchen began as a pop-up serving neighborhoods in Gaborone. What started with a single oven and a commitment to quality quickly grew through word-of-mouth—fueled by crispy crusts, generous toppings, and the signature umami touch. Today, we’re a local favorite for events, late-night cravings, and weekend family feasts, with operations centered in Bontleng and Block 9.</p>
+        </div>
+        <div class="about-card">
+            <h3>What “Umami” Means to Us</h3>
+            <p>Umami is the deep, savory flavor that keeps you coming back for another bite. From slow-cooked tomato sauces to roasted toppings and cheese blends, we build flavor in layers. Every pizza is crafted to deliver that rich, satisfying taste.</p>
+        </div>
+        <div class="about-card">
+            <h3>Values We Live By</h3>
+            <ul class="about-list">
+                <li>Fresh, locally-sourced ingredients wherever possible</li>
+                <li>Consistency in every order—from dough to delivery</li>
+                <li>Community-first service and fair pricing</li>
+                <li>Innovation with respect for classics</li>
+            </ul>
+        </div>
+        <div class="about-card">
+            <h3>What We Offer</h3>
+            <ul class="about-list">
+                <li>Signature range: Meat Lovers, Creamy Chicken, and Mexican Chilli</li>
+                <li>Custom builds for private events and catering</li>
+                <li>Combo deals like Large + Small, On the Double, and Triple Decker</li>
+                <li>Flexible pickup and delivery within Gaborone (Bontleng • Block 9 and surrounding)</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="split-grid">
+        <div class="contact-block">
+            <h2>Contact Us</h2>
+            <p><strong>Phone:</strong> +267 77 638 172</p>
+            <p><strong>Email:</strong> paulnyeku@gmail.com</p>
+            <p><strong>Locations:</strong> Gaborone • Bontleng • Block 9</p>
+            <div class="map-container" style="height:260px;border-radius:10px;overflow:hidden;margin-top:1rem;">
+                <iframe src="https://www.google.com/maps?q=Gaborone,Botswana&output=embed" loading="lazy"></iframe>
+            </div>
+            <form class="contact-form" action="#" method="post">
+                <div class="form-group"><label>Your Name</label><input type="text" required></div>
+                <div class="form-group"><label>Phone</label><input type="tel" required></div>
+                <div class="form-group"><label>Message</label><textarea rows="4" required></textarea></div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+        <div class="feedback-block">
+            <h2>Share Your Feedback</h2>
+            <form class="feedback-form" action="#" method="post">
+                <div class="form-group"><label>Your Name</label><input type="text" required></div>
+                <div class="form-group"><label>What did you order?</label><input type="text" placeholder="e.g., Meat Lovers (Large + Small)"></div>
+                <div class="rating-row">
+                    <button type="button" class="rating-btn">⭐</button>
+                    <button type="button" class="rating-btn">⭐⭐</button>
+                    <button type="button" class="rating-btn">⭐⭐⭐</button>
+                    <button type="button" class="rating-btn">⭐⭐⭐⭐</button>
+                    <button type="button" class="rating-btn">⭐⭐⭐⭐⭐</button>
+                </div>
+                <div class="form-group"><label>Your Feedback</label><textarea rows="4" required></textarea></div>
+                <button type="submit" class="submit-btn">Submit Review</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Chef Paul Pizza</h3>
+                <p>Fresh ingredients, amazing taste</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="menu.html">Menu</a>
+                <a href="deals.html">Deals</a>
+                <a href="about.html">About Us</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Chef Paul's Umami Pizza Kitchen</p>
+                <p>Gaborone | Tlokweng</p>
+                <p>Phone: +267 77 638 172</p>
+                <p>Email: paulnyeku@gmail.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=100083294353258" class="social-link">Facebook</a>
+                    <a href="https://www.instagram.com/chef.paulskitchen/" class="social-link">Instagram</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2024 Chef Paul Pizza. All rights reserved.</p></div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

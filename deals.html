@@ -26,7 +26,7 @@
         }
 
         .deal-card {
-            background: var(--white);
+            background: #fafafa;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -94,7 +94,7 @@
             display: block;
             width: 100%;
             padding: 1rem;
-            background-color: var(--orange);
+            background-color: var(--red);
             color: var(--white);
             text-align: center;
             text-decoration: none;
@@ -103,7 +103,7 @@
         }
 
         .deal-button:hover {
-            background-color: var(--red);
+            background-color: var(--orange);
         }
 
         .deal-terms {
@@ -186,11 +186,8 @@
                 display: none;
             }
 
-            .nav-buttons {
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-            }
+            /* Revert to flex layout */
+            .nav-container { display: flex; justify-content: space-between; }
 
             .hamburger-menu {
                 display: flex;
@@ -370,14 +367,13 @@
     <header class="header">
         <nav class="nav-container">
             <div class="logo">
-                <h1>Chef Paul Pizza</h1>
+                <img src="pics/logo.png" alt="Chef Paul's Umami Pizza Kitchen" class="logo-image">
             </div>
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="menu.html">Menu</a>
                 <a href="deals.html">Deals</a>
-                <a href="feedback.html">Feedback</a>
-                <a href="contact.html">Contact</a>
+                <a href="about.html">About Us</a>
             </div>
             <div class="nav-buttons">
                 <button class="cart-btn"><img src="pics/icons8-cart-60.png" alt="Cart" class="cart-icon"></button>
@@ -394,8 +390,7 @@
             <a href="index.html">Home</a>
             <a href="menu.html">Menu</a>
             <a href="deals.html">Deals</a>
-            <a href="feedback.html">Feedback</a>
-            <a href="contact.html">Contact</a>
+            <a href="about.html">About Us</a>
         </div>
     </header>
 
@@ -428,7 +423,7 @@
             <div class="footer-section">
                 <h3>Contact Us</h3>
                 <p>Chef Paul's Umami Pizza Kitchen</p>
-                <p>Gaborone | Tlokweng</p>
+                <p>Gaborone | Bontleng | Block 9</p>
                 <p>Phone: +267 77 638 172</p>
                 <p>Email: paulnyeku@gmail.com</p>
             </div>
