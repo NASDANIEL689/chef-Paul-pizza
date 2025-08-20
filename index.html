@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chef Paul Pizza - Fresh, Hot, and Made with Love!</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Megrim&family=Rubik+Vinyl&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <style>
         /* Add hamburger menu styles */
@@ -128,13 +131,12 @@
     <header class="header">
         <nav class="nav-container">
             <div class="logo">
-                <h1>Chef Paul Pizza</h1>
+                <img src="pics/logo.png" alt="Chef Paul's Umami Pizza Kitchen" class="logo-image">
             </div>
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="menu.html">Menu</a>
                 <a href="deals.html">Deals</a>
-                <a href="popular.html">Popular</a>
                 <a href="feedback.html">Feedback</a>
                 <a href="contact.html">Contact</a>
             </div>
@@ -159,35 +161,251 @@
 
     <!-- Hero Section -->
     <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Fresh, Hot, and Made with Love!</h1>
-            <p>Experience the perfect blend of traditional and innovative pizza flavors</p>
-            <div class="hero-buttons">
-                <button class="primary-btn">Order Now</button>
-                <a href="menu.html" class="secondary-btn">View Menu</a>
+        <div class="hero-particles"></div>
+        <div class="hero-gradient-bg"></div>
+        <div class="hero-container">
+            <div class="hero-header">
+                <div class="hero-logo">
+                    <span class="logo-icon">🍕</span>
+                    <span class="logo-text">Chef Paul's</span>
+                </div>
+                <div class="hero-contact">
+                    <span class="contact-icon">📞</span>
+                    <span>+267 77 638 172</span>
+                </div>
+            </div>
+            
+            <div class="hero-main">
+                <div class="hero-left">
+                    <div class="hero-tagline">
+                        <span class="tagline-icon">⭐</span>
+                        <span>Authentic Kasi Flavor</span>
+                    </div>
+                    <h1 class="hero-title">
+                        <span class="title-line">Where Every Bite</span>
+                        <span class="title-line">is Packed with</span>
+                        <span class="title-highlight">Kasi Flavor!</span>
+                    </h1>
+            <p>Indulge in handcrafted pizzas made with the freshest farm-to-table ingredients, layered with bold, unforgettable flavors, and finished with Chef Paul’s signature touch of umami perfection.</p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">Happy Customers</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Pizza Varieties</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Fresh Service</span>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-actions">
+                        <button class="cta-primary">
+                            <span class="cta-icon">🔥</span>
+                            Order Now
+                        </button>
+                        <a href="menu.html" class="cta-secondary">
+                            <span class="cta-icon">📋</span>
+                            View Menu
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="hero-right">
+                    <div class="hero-image-stack">
+                        <div class="image-main">
+                            <img src="pics/486109780_656386520481154_4888741190451172103_n.jpg" alt="Delicious Pizza">
+                            <div class="image-overlay">
+                                <span class="overlay-text">Fresh Daily</span>
+                            </div>
+                        </div>
+                        <div class="image-secondary">
+                            <img src="pics/488760799_652433037543169_4459470251648953587_n.jpg" alt="Pizza Close-up">
+                        </div>
+                        <div class="floating-elements">
+                            <div class="floating-badge floating-badge-1">
+                                <div class="badge-content">
+                                    <span class="badge-emoji">🍕</span>
+                                    <div class="badge-text">
+                                        <h4>Meat Lovers</h4>
+                                        <p>P180</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="floating-badge floating-badge-2">
+                                <div class="badge-content">
+                                    <span class="emoji">🔥</span>
+                                    <div class="badge-text">
+                                        <h4>Hot & Fresh</h4>
+                                        <p>Made Daily</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="floating-badge floating-badge-3">
+                                <div class="badge-content">
+                                    <span class="badge-emoji">⭐</span>
+                                    <div class="badge-text">
+                                        <h4>Chef's Choice</h4>
+                                        <p>Premium Quality</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-bottom">
+                <div class="scroll-hint">
+                    <div class="scroll-line"></div>
+                    <span>Scroll to explore our menu</span>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Quick Links -->
-    <section class="quick-links">
-        <div class="link-card">
-            <img src="pics/496452071_684132747706531_9034893973497367974_n.jpg" alt="Menu">
-            <h3>Our Menu</h3>
-            <p>Explore our delicious pizzas</p>
-            <a href="menu.html" class="link-btn">View Menu</a>
+    <!-- Menu Showcase -->
+    <section class="menu-showcase">
+        <div class="menu-container">
+            <div class="menu-content">
+                <div class="menu-text">
+                    <h2>Our Delicious Menu</h2>
+                    <p>Discover Chef Paul's signature pizzas, each crafted with fresh ingredients and authentic flavors. From classic favorites to unique creations, we have something for every pizza lover.</p>
+                    <div class="menu-features">
+                        <div class="feature">
+                            <span class="feature-icon">🍕</span>
+                            <span>Fresh Ingredients</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">🔥</span>
+                            <span>Hot & Fresh</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">⭐</span>
+                            <span>Chef's Special</span>
+                        </div>
+                    </div>
+                    <a href="menu.html" class="view-menu-btn">View Full Menu</a>
+                </div>
+                <div class="menu-image">
+                    <img src="pics/menu.jpg" alt="Chef Paul's Pizza Menu">
+                    <div class="menu-overlay">
+                        <span class="menu-badge">Menu</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="link-card">
-            <img src="pics/500642364_687730764013396_5545638874431695074_n (3).jpg" alt="Deals">
-            <h3>Best Deals</h3>
-            <p>Special offers just for you</p>
-            <a href="deals.html" class="link-btn">View Deals</a>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="about-us">
+        <div class="about-container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About Chef Paul's Kitchen</h2>
+                    <p class="about-subtitle">Passion for Pizza, Love for Food</p>
+                    <p class="about-description">
+                        At Chef Paul’s Umami Pizza Kitchen, we believe pizza is more than just food — it’s an experience. Founded by Chef Paul, a passionate culinary artist with a love for bold flavors, our kitchen was built on the idea of blending tradition with creativity.
+                    </p>
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <div class="feature-icon-bg">🍕</div>
+                            <div class="feature-content">
+                                <h4>Authentic Recipes</h4>
+                                <p>Handcrafted using traditional techniques and family recipes passed down through generations.</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <div class="feature-icon-bg">🌿</div>
+                            <div class="feature-content">
+                                <h4>Fresh Ingredients</h4>
+                                <p>We source only the finest, freshest ingredients to ensure every bite is bursting with flavor.</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <div class="feature-icon-bg">👨‍🍳</div>
+                            <div class="feature-content">
+                                <h4>Expert Chefs</h4>
+                                <p>Our team of passionate chefs brings years of experience and creativity to every dish.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="pics/ITEM (1).png" alt="Chef Paul's Kitchen">
+                    <div class="about-stats">
+                        <div class="stat">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">Happy Customers</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Pizza Varieties</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="link-card">
-            <img src="pics/ivan-torres-MQUqbmszGGM-unsplash.jpg" alt="Contact">
-            <h3>Contact Us</h3>
-            <p>We'd love to hear from you</p>
-            <a href="contact.html" class="link-btn">Get in Touch</a>
+    </section>
+
+    <!-- Feedback Section -->
+    <section class="feedback-section">
+        <div class="feedback-container">
+            <div class="feedback-header">
+                <h2>What Our Customers Say</h2>
+                <p>Real feedback from real pizza lovers</p>
+            </div>
+            <div class="feedback-grid">
+                <div class="feedback-card">
+                    <div class="feedback-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="feedback-text">
+                        "The best pizza I've ever had! Chef Paul's Meat Lovers pizza is absolutely incredible. 
+                        Fresh ingredients and perfect crust every time."
+                    </p>
+                    <div class="feedback-author">
+                        <div class="author-avatar">👤</div>
+                        <div class="author-info">
+                            <h4>Sarah M.</h4>
+                            <span>Regular Customer</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="feedback-card">
+                    <div class="feedback-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="feedback-text">
+                        "Amazing service and delicious food! The Mexican Chilli pizza has the perfect amount of spice. 
+                        Highly recommend!"
+                    </p>
+                    <div class="feedback-author">
+                        <div class="author-avatar">👤</div>
+                        <div class="author-info">
+                            <h4>Michael K.</h4>
+                            <span>Food Enthusiast</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="feedback-card">
+                    <div class="feedback-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="feedback-text">
+                        "Chef Paul's Creamy Chicken pizza is a game-changer! Creamy, flavorful, and the crust is perfect. 
+                        Will definitely order again!"
+                    </p>
+                    <div class="feedback-author">
+                        <div class="author-avatar">👤</div>
+                        <div class="author-info">
+                            <h4>Lisa T.</h4>
+                            <span>Pizza Lover</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="feedback-cta">
+                <p>Share your experience with us!</p>
+                <a href="feedback.html" class="feedback-btn">Write a Review</a>
+            </div>
         </div>
     </section>
 
